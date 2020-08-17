@@ -9,7 +9,7 @@ session_start();
 date_default_timezone_set('America/Sao_Paulo');
 
 // home page url
-$home_url = "http://localhost:8000/";
+$home_url = "/";
 
 // page given in URL parameter, default page is one
 $page = isset($_GET['page']) ? $_GET['page'] : 1;

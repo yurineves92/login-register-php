@@ -75,7 +75,6 @@ class User
     // create new user record
     function create()
     {
-
         // to get time stamp for 'created' field
         $this->created = date('Y-m-d H:i:s');
 
@@ -118,6 +117,7 @@ class User
         $stmt->bindParam(':password', $password_hash);
 
         $stmt->bindParam(':access_level', $this->access_level);
+        $stmt->bindParam(':access_code', $this->access_code);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':created', $this->created);
 
@@ -135,5 +135,55 @@ class User
         echo "<pre>";
         print_r($stmt->errorInfo());
         echo "</pre>";
+    }
+
+    // read all user records
+    function readAll($from_record_num, $records_per_page)
+    {
+        // query to read all user records, with limit clause for pagination
+        $query = "SELECT
+                id,
+                firstname,
+                lastname,
+                email,
+                contact_number,
+                access_level,
+                created
+            FROM " . $this->table_name . "
+            ORDER BY id DESC
+            LIMIT ?, ?";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // bind limit clause variables
+        $stmt->bindParam(1, $from_record_num, PDO::PARAM_INT);
+        $stmt->bindParam(2, $records_per_page, PDO::PARAM_INT);
+
+        // execute query
+        $stmt->execute();
+
+        // return values
+        return $stmt;
+    }
+
+    // used for paging users
+    public function countAll()
+    {
+
+        // query to select all user records
+        $query = "SELECT id FROM " . $this->table_name . "";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+
+        // execute query
+        $stmt->execute();
+
+        // get number of rows
+        $num = $stmt->rowCount();
+
+        // return row count
+        return $num;
     }
 }

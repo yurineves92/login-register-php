@@ -48,12 +48,28 @@ if ($_POST) {
         $user->access_level = 'Customer';
         $user->status = 1;
 
+        // access code for email verification
+        $access_code = $utils->getToken();
+        $user->access_code = $access_code;
+
         // create the user
         if ($user->create()) {
 
-            echo "<div class='alert alert-info'>";
-            echo "Successfully registered. <a href='{$home_url}login'>Please login</a>.";
-            echo "</div>";
+            // send confimation email
+            $send_to_email = $_POST['email'];
+            $body = "Hi {$send_to_email}.<br /><br />";
+            $body .= "Please click the following link to verify your email and login: {$home_url}verify/?access_code={$access_code}";
+            $subject = "Verification Email";
+
+            if ($utils->sendEmailViaPhpMail($send_to_email, $subject, $body)) {
+                echo "<div class='alert alert-success'>
+                        Verification link was sent to your email. Click that link to login.
+                    </div>";
+            } else {
+                echo "<div class='alert alert-danger'>
+                        User was created but unable to send verification email. Please contact admin.
+                    </div>";
+            }
 
             // empty posted values
             $_POST = array();
