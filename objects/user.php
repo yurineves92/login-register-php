@@ -105,6 +105,7 @@ class User
         $this->password = htmlspecialchars(strip_tags($this->password));
         $this->access_level = htmlspecialchars(strip_tags($this->access_level));
         $this->status = htmlspecialchars(strip_tags($this->status));
+        $this->access_code = htmlspecialchars(strip_tags($this->access_code));
 
         // bind the values
         $stmt->bindParam(':firstname', $this->firstname);
