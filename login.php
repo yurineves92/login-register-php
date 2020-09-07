@@ -51,12 +51,12 @@ if ($_POST) {
 
         // if access level is 'Admin', redirect to admin section
         if ($user->access_level == 'Admin') {
-            header("Location: {$home_url}admin/index.php?action=login_success");
+            header("Location: {$home_url}admin/index?action=login_success");
         }
 
         // else, redirect only to 'Customer' section
         else {
-            header("Location: {$home_url}index.php?action=login_success");
+            header("Location: {$home_url}index?action=login_success");
         }
     }
 
