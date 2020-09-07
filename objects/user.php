@@ -89,6 +89,7 @@ class User
                 address = :address,
                 password = :password,
                 access_level = :access_level,
+                access_code = :access_code,
                 status = :status,
                 created = :created";
 
